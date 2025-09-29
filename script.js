@@ -5,6 +5,9 @@ All tasks in one file (script.js)
 =======================================
 */
 
+// Wait for DOM to be fully loaded before executing JavaScript
+document.addEventListener("DOMContentLoaded", function () {
+
 /*  
 =======================================
 TODO1: Welcome Board
@@ -94,3 +97,5 @@ data.main.temp      → temperature (°C)
 data.main.humidity  → humidity (%)
 data.wind.speed     → wind speed (m/s)
 */
+
+});
