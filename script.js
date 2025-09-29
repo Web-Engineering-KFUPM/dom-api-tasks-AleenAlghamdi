@@ -74,10 +74,43 @@ The API returns JSON like:
 }
 
 Use:
-data.content   // the quote text
+data.quote     // the quote text
 data.author    // the author
 */
- 
+
+    const quoteBtn = document.getElementById("t3-loadQuote");
+    const quoteEl  = document.getElementById("t3-quote");
+    const authorEl = document.getElementById("t3-author");
+
+    quoteBtn.addEventListener("click", function () {
+        // Show loading state
+        quoteBtn.disabled = true;
+        quoteBtn.textContent = "Loading...";
+
+        fetch("https://dummyjson.com/quotes/random")
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error("HTTP " + response.status);
+                }
+                return response.json();
+            })
+            .then(function (data) {
+                // Update UI with quote data
+                quoteEl.textContent = data.quote;
+                authorEl.textContent = "- " + data.author;
+            })
+            .catch(function (error) {
+                // Handle errors
+                quoteEl.textContent = "Failed to load quote. Please try again.";
+                authorEl.textContent = "";
+                console.error("Quote fetch error:", error);
+            })
+            .finally(function () {
+                // Re-enable button
+                quoteBtn.disabled = false;
+                quoteBtn.textContent = "Inspire Me ✨";
+            });
+    });
 
 /*  
 =======================================
