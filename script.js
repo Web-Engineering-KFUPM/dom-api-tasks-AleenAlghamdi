@@ -22,8 +22,8 @@ inside the <p> element with id="t1-msg".
 💡 Hint:
 document.getElementById("t1-msg").innerHTML = "Hello, World!";
 */
- 
-
+    const welcomeMsg = document.getElementById("t1-msg");
+    welcomeMsg.textContent = "Hello, World!";
 /*  
 =======================================
 TODO2: Interaction Corner
