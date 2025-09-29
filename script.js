@@ -137,4 +137,51 @@ data.main.humidity  → humidity (%)
 data.wind.speed     → wind speed (m/s)
 */
 
+    const weatherBtn = document.getElementById("t4-loadWx");
+    const tempEl = document.getElementById("t4-temp");
+    const humEl = document.getElementById("t4-hum");
+    const windEl = document.getElementById("t4-wind");
+    const weatherErrorEl = document.getElementById("t4-err");
+
+    // IMPORTANT: Replace with your actual OpenWeatherMap API key
+    const API_KEY = "9c29da573838fd8cdd561179419142d7";
+    const weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=Dammam&appid=${API_KEY}&units=metric`;
+
+    weatherBtn.addEventListener("click", function () {
+        // Show loading state
+        weatherBtn.disabled = true;
+        weatherBtn.textContent = "Loading...";
+        weatherErrorEl.textContent = "";
+
+        fetch(weatherURL)
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error("HTTP " + response.status);
+                }
+                return response.json();
+            })
+            .then(function (data) {
+                // Update UI with weather data
+                tempEl.textContent = Math.round(data.main.temp) + " °C";
+                humEl.textContent = data.main.humidity + " %";
+                windEl.textContent = data.wind.speed + " m/s";
+            })
+            .catch(function (error) {
+                // Handle errors gracefully
+                weatherErrorEl.textContent = "Error loading weather data: " + error.message;
+
+                // Reset display
+                tempEl.textContent = "—";
+                humEl.textContent = "—";
+                windEl.textContent = "—";
+
+                console.error("Weather fetch error:", error);
+            })
+            .finally(function () {
+                // Re-enable button
+                weatherBtn.disabled = false;
+                weatherBtn.textContent = "Check Weather ☁️";
+            });
+    });
+
 });
